@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r22b
+      - name: Install Composer Dependencies
+        working-directory: ./jni
+        run: ndk-build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: android-imagemagick-jni-libs
+          path: libs
